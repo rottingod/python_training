@@ -1,5 +1,3 @@
-
-
 class SessionHelper:
 
     def __init__(self, app):
@@ -17,5 +15,5 @@ class SessionHelper:
         wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
 
     def logout(self):
-            wd = self.app.wd
-            wd.find_element_by_link_text("Logout").click()
+        wd = self.app.wd
+        wd.find_element_by_link_text("Logout").click()

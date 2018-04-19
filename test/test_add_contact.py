@@ -16,6 +16,5 @@ def test_add_contact(app):
                       company="python_training", address="Moscow",
                       home="89991234567", mobile="89991234567", email="rottingod@gmail.com")
     app.session.login(username="admin", password="secret")
-    app.create_new_contact(contact)
+    app.contact.create(contact)
     app.session.logout()
-
