@@ -1,8 +1,8 @@
 import time
 
 
-def test_delete_first_group(app):
+def test_update_first_contact(app):
     app.session.login(username="admin", password="secret")
-    app.group.delete_first_group()
+    app.contact.update_first_contact()
     app.session.logout()
     time.sleep(1)

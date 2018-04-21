@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
+import time
 
 
 def test_add_contact(app):
@@ -9,3 +10,4 @@ def test_add_contact(app):
     app.session.login(username="admin", password="secret")
     app.contact.create(contact)
     app.session.logout()
+    time.sleep(1)
