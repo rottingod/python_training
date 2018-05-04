@@ -1,3 +1,6 @@
+from model.contact import Contact
+
+
 class ContactHelper:
 
     def __init__(self, app):
@@ -53,8 +56,20 @@ class ContactHelper:
         # submit deletion
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
+        self.return_to_home_page()
 
     def return_to_home_page(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("addressbook/") and len(wd.find_elements_by_name("add")) > 0):
             wd.find_element_by_link_text("home page").click()
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        contacts = []
+        for element in wd.find_elements_by_name("entry"):
+            id = element.find_element_by_xpath(".//td[1]/input").get_attribute("value")
+            last_name = element.find_element_by_xpath(".//td[2]").text
+            name = element.find_element_by_xpath(".//td[3]").text
+            contacts.append(Contact(last_name=last_name, name=name, id=id))
+        return contacts
