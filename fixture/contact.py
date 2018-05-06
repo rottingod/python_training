@@ -36,7 +36,7 @@ class ContactHelper:
 
     def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.return_to_home_page()
         # open modification form
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         self.fill_contact_form(new_contact_data)
@@ -46,12 +46,12 @@ class ContactHelper:
 
     def count(self):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.return_to_home_page()
         return len(wd.find_elements_by_name("selected[]"))
 
     def delete_first_contact(self):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.return_to_home_page()
         wd.find_element_by_name("selected[]").click()
         # submit deletion
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
@@ -61,11 +61,11 @@ class ContactHelper:
     def return_to_home_page(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("addressbook/") and len(wd.find_elements_by_name("add")) > 0):
-            wd.find_element_by_link_text("home page").click()
+            wd.find_element_by_link_text("home").click()
 
     def get_contact_list(self):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.return_to_home_page()
         contacts = []
         for element in wd.find_elements_by_name("entry"):
             id = element.find_element_by_xpath(".//td[1]/input").get_attribute("value")
