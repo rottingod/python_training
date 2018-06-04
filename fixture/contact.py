@@ -54,6 +54,17 @@ class ContactHelper:
         self.return_to_home_page()
         self.contact_cache = None
 
+    def modify_contact_by_id(self, id, new_contact_data):
+        wd = self.app.wd
+        self.return_to_home_page()
+        # open modification form
+        self.select_contact_by_id_for_modify(id)
+        self.fill_contact_form(new_contact_data)
+        # submit modification
+        wd.find_element_by_name("update").click()
+        self.return_to_home_page()
+        self.contact_cache = None
+
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
@@ -62,9 +73,17 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[id='%s']" % id).click()
+
     def select_contact_by_index_for_modify(self, index):
         wd = self.app.wd
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[" + str(index + 2) + "]/td[8]/a/img").click()
+
+    def select_contact_by_id_for_modify(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("a[href='edit.php?id=%s']" % id).click()
 
     def count(self):
         wd = self.app.wd
@@ -78,6 +97,16 @@ class ContactHelper:
         wd = self.app.wd
         self.return_to_home_page()
         self.select_contact_by_index(index)
+        # submit deletion
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.switch_to_alert().accept()
+        self.return_to_home_page()
+        self.contact_cache = None
+
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.return_to_home_page()
+        self.select_contact_by_id(id)
         # submit deletion
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
@@ -145,10 +174,24 @@ class ContactHelper:
         wd = self.app.wd
         self.open_contact_view_by_index(index)
         text = wd.find_element_by_id("content").text
-        homephone = re.search("H: (.*)", text).group(1)
-        mobilephone = re.search("M: (.*)", text).group(1)
-        workphone = re.search("W: (.*)", text).group(1)
-        secondaryphone = re.search("P: (.*)", text).group(1)
-        all_phones = homephone + "\n" + mobilephone + "\n" + workphone + "\n" + secondaryphone
+        all_phones = ''
+        homephone = None
+        mobilephone = None
+        workphone = None
+        secondaryphone = None
+        if re.search("H: (.*)", text) is not None:
+            homephone = re.search("H: (.*)", text).group(1)
+            all_phones += homephone + "\n"
+        if re.search("M: (.*)", text)is not None:
+            mobilephone = re.search("M: (.*)", text).group(1)
+            all_phones += mobilephone + "\n"
+        if re.search("W: (.*)", text) is not None:
+            workphone = re.search("W: (.*)", text).group(1)
+            all_phones += workphone + "\n"
+        if re.search("P: (.*)", text) is not None:
+            secondaryphone = re.search("P: (.*)", text).group(1)
+            all_phones += secondaryphone
         return Contact(all_phones_from_view_page=all_phones, homephone=homephone, mobilephone=mobilephone,
                        workphone=workphone, secondaryphone=secondaryphone)
+
+

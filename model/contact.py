@@ -39,3 +39,33 @@ class Contact:
             return int(self.id)
         else:
             return maxsize
+
+    def merge(self, contact):
+        if contact.firstname is not None:
+            self.firstname = contact.firstname
+        if contact.middlename is not None:
+            self.middlename = contact.middlename
+        if contact.lastname is not None:
+            self.lastname = contact.lastname
+        if contact.nickname is not None:
+            self.nickname = contact.nickname
+        if contact.company is not None:
+            self.company = contact.company
+        if contact.address is not None:
+            self.address = contact.address
+        if contact.homephone is not None:
+            self.homephone = contact.homephone
+        if contact.mobilephone is not None:
+            self.mobilephone = contact.mobilephone
+        if contact.workphone is not None:
+            self.workphone = contact.workphone
+        if contact.secondaryphone is not None:
+            self.secondaryphone = contact.secondaryphone
+        if contact.email is not None:
+            self.email = contact.email
+        if contact.email2 is not None:
+            self.email2 = contact.email2
+        if contact.email2 is not None:
+            self.email3 = contact.email3
+        if contact.id is not None:
+            self.id = contact.id
