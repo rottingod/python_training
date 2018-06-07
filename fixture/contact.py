@@ -75,7 +75,21 @@ class ContactHelper:
 
     def select_contact_by_id(self, id):
         wd = self.app.wd
+        self.return_to_home_page()
         wd.find_element_by_css_selector("input[id='%s']" % id).click()
+
+    def select_group_for_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_name("to_group").find_element_by_css_selector("option[value='%s']" % id).click()
+        wd.find_element_by_name("add").click()
+
+    def delete_contact_from_group_by_id(self, contact_id, group_id):
+        wd = self.app.wd
+        self.return_to_home_page()
+        wd.find_element_by_name("group").find_element_by_css_selector("option[value='%s']" % group_id).click()
+        wd.find_element_by_css_selector("input[id='%s']" % contact_id).click()
+        wd.find_element_by_name("remove").click()
+
 
     def select_contact_by_index_for_modify(self, index):
         wd = self.app.wd
@@ -148,6 +162,13 @@ class ContactHelper:
         wd = self.app.wd
         self.return_to_home_page()
         row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[6]
+        cell.find_element_by_tag_name("a").click()
+
+    def open_contact_view_by_id(self, id):
+        wd = self.app.wd
+        self.return_to_home_page()
+        row = wd.find_elements_by_name("entry")[id]
         cell = row.find_elements_by_tag_name("td")[6]
         cell.find_element_by_tag_name("a").click()
 
